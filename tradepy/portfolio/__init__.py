@@ -13,6 +13,9 @@ import pandas as pd
 
 from tradepy.signal import Signal
 
+# Constants
+NEUTRAL_SIGNAL = 0.0
+
 
 @dataclass
 class Position:
@@ -122,7 +125,7 @@ class EqualWeightPortfolio(PortfolioManager):
             Dictionary of symbol -> target weight
         """
         # Get latest signal value
-        latest_signal = signal.values[-1] if len(signal.values) > 0 else 0
+        latest_signal = signal.values[-1] if len(signal.values) > 0 else NEUTRAL_SIGNAL
         
         weights: Dict[str, float] = {}
         

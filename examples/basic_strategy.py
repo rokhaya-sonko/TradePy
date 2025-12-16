@@ -122,7 +122,8 @@ def main() -> None:
     
     # 7. Run backtest simulation
     print("8. Running backtest...")
-    for i in range(50, len(ohlcv.dates)):  # Start after MA warmup
+    warmup_period = signal_generator.slow_period  # Use slow MA period for warmup
+    for i in range(warmup_period, len(ohlcv.dates)):  # Start after MA warmup
         current_date = ohlcv.dates[i]
         current_price = ohlcv.close[i]
         

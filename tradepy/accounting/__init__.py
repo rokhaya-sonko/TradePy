@@ -12,6 +12,9 @@ import pandas as pd
 
 from tradepy.execution import Fill
 
+# Constants
+TRADING_DAYS_PER_YEAR = 252.0  # Standard number of trading days in a year
+
 
 @dataclass
 class PerformanceMetrics:
@@ -117,13 +120,13 @@ class AccountingLedger:
         
         # Annualized return (assuming daily data)
         days = len(df)
-        years = days / 252.0  # Trading days
+        years = days / TRADING_DAYS_PER_YEAR
         annualized_return = ((df['equity'].iloc[-1] / self.initial_capital) ** (1.0 / years) - 1.0) * 100 if years > 0 else 0.0
         
         # Sharpe ratio (assuming daily returns)
-        daily_rf = (1 + risk_free_rate) ** (1.0 / 252.0) - 1.0
+        daily_rf = (1 + risk_free_rate) ** (1.0 / TRADING_DAYS_PER_YEAR) - 1.0
         excess_returns = returns - daily_rf
-        sharpe_ratio = np.sqrt(252) * excess_returns.mean() / excess_returns.std() if len(excess_returns) > 0 and excess_returns.std() > 0 else 0.0
+        sharpe_ratio = np.sqrt(TRADING_DAYS_PER_YEAR) * excess_returns.mean() / excess_returns.std() if len(excess_returns) > 0 and excess_returns.std() > 0 else 0.0
         
         # Maximum drawdown
         cumulative = (1 + returns).cumprod()

@@ -21,7 +21,7 @@ class Signal:
     Attributes:
         symbol: Ticker symbol
         dates: Array of dates
-        values: Signal values (typically -1 for short, 0 for neutral, 1 for long)
+        values: Signal values (float: -1.0 for short, 0.0 for neutral, 1.0 for long)
         strengths: Optional signal strengths (0.0 to 1.0)
     """
     symbol: str

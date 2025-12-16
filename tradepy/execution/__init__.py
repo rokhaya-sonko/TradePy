@@ -12,6 +12,9 @@ import numpy as np
 
 from tradepy.portfolio import Portfolio, Position
 
+# Constants
+MIN_TRADE_THRESHOLD = 1e-6  # Minimum share amount to execute a trade
+
 
 class OrderType(Enum):
     """Order type enumeration."""
@@ -181,7 +184,7 @@ class ExecutionEngine:
             target_shares = target_value / current_price
             delta_shares = target_shares - current_shares
             
-            if abs(delta_shares) > 1e-6:  # Avoid tiny trades
+            if abs(delta_shares) > MIN_TRADE_THRESHOLD:  # Avoid tiny trades
                 order = Order(
                     symbol=symbol,
                     side=OrderSide.BUY if delta_shares > 0 else OrderSide.SELL,
