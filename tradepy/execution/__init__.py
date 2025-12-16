@@ -16,6 +16,18 @@ from tradepy.portfolio import Portfolio, Position
 MIN_TRADE_THRESHOLD = 1e-6  # Minimum share amount to execute a trade
 
 
+def create_empty_position(symbol: str) -> Position:
+    """Create an empty position with zero shares.
+    
+    Args:
+        symbol: Ticker symbol
+    
+    Returns:
+        Empty position
+    """
+    return Position(symbol=symbol, shares=0.0, entry_price=0.0, current_price=0.0)
+
+
 class OrderType(Enum):
     """Order type enumeration."""
     MARKET = "market"
@@ -175,7 +187,7 @@ class ExecutionEngine:
         
         for symbol, target_weight in target_weights.items():
             target_value = total_value * target_weight
-            current_shares = portfolio.positions.get(symbol, Position(symbol, 0, 0, 0)).shares
+            current_shares = portfolio.positions.get(symbol, create_empty_position(symbol)).shares
             current_price = current_prices.get(symbol, 0)
             
             if current_price <= 0:
